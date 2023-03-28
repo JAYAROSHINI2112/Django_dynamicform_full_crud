@@ -1,0 +1,97 @@
+{% load static %}  
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <title>Index</title>  
+    
+    <link rel="stylesheet" href="#"/>  
+</head>  
+<body>  
+
+<!-- {% csrf_token %}  
+{{my_formset.management_form}}
+        {% for form in my_formset %}
+    <div class="container">  
+<br>  
+    <div class="form-group row">  
+    <label class="col-sm-1 col-form-label"></label>  
+    <div class="col-sm-4">  
+    <h3>Enter Details</h3>  
+    </div>  
+  </div>  
+    <div class="form-group row">  
+    <label class="col-sm-2 col-form-label">Employee Id:</label>  
+    <div class="col-sm-4">  
+      {{ form.eid }}  
+    </div>  
+  </div>  
+  <div class="form-group row">  
+    <label class="col-sm-2 col-form-label">Employee Name:</label>  
+    <div class="col-sm-4">  
+      {{ form.ename }}  
+    </div>  
+  </div>  
+    <div class="form-group row">  
+    <label class="col-sm-2 col-form-label">Employee Email:</label>  
+    <div class="col-sm-4">  
+      {{ form.eemail }}  
+    </div>  
+  </div>  
+    <div class="form-group row">  
+    <label class="col-sm-2 col-form-label">Employee Contact:</label>  
+    <div class="col-sm-4">  
+      {{ form.econtact }}  
+    </div>  
+  </div>  
+
+  {% endfor %}
+    <div class="form-group row">  
+    <label class="col-sm-1 col-form-label"></label>  
+    <div class="col-sm-4">  
+    <button type="submit" class="btn btn-primary">Submit</button>  
+    </div>  
+  </div>  
+    </div>  
+</form>   -->
+
+
+ 
+<form id="form-container" method="POST"  >
+  {% csrf_token %}
+  {{formset.management_form}}
+  {% for form in formset %}
+  <div class="div-form">
+  {{form.as_p}}
+  </div>
+  {% endfor %}
+ 
+  <button id="add-form" type="button">Add Another Field</button>
+  <button type="submit">Submit</button>
+</form>
+</body>  
+<script>
+
+        let divform = document.querySelectorAll(".div-form")
+        let container = document.querySelector("#form-container")
+        let addButton = document.querySelector("#add-form")
+        let totalForms = document.querySelector("#id_form-TOTAL_FORMS")
+
+        let formNum = divform.length-1
+        addButton.addEventListener('click', addForm)
+
+        function addForm(e){
+            e.preventDefault()
+ 
+            let newForm = divform[0].cloneNode(true)
+            let formRegex = RegExp(`form-(\\d){1}-`,'g')
+
+            formNum++
+            newForm.innerHTML = newForm.innerHTML.replace(formRegex, `form-${formNum}-`)
+            container.insertBefore(newForm, addButton)
+            
+            totalForms.setAttribute('value', `${formNum+1}`)
+        }
+    </script>
+</script>
+</html>  
